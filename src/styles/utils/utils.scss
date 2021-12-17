@@ -1,0 +1,17 @@
+@mixin fullScreen {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin flexRowCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flexColumnCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
