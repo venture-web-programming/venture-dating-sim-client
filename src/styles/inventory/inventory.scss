@@ -1,0 +1,37 @@
+.Inventory {
+  height: 300px;
+  padding-top: 24px;
+  box-sizing: border-box;
+
+  &__title {
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  &__container {
+    display: flex;
+    margin-top: 24px;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__box {
+    width: 100px;
+    display: flex;
+
+    + .Inventory__box {
+      margin-top: 8px;
+    }
+  }
+
+  &__item {
+    width: 60%;
+  }
+
+  &__value {
+    width: 40%;
+  }
+}
