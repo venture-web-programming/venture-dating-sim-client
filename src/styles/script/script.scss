@@ -11,6 +11,15 @@
 
   &__desc {
     margin-top: 16px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 25px;
+    background-color: #e7e7e7;
+    border-radius: 5px;
+    color: #333;
+    font-size: 16px;
+    overflow: auto;
   }
 
   &__map {
