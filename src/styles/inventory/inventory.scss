@@ -3,7 +3,7 @@
   padding-top: 24px;
   box-sizing: border-box;
   overflow: auto;
-  
+
   &__title {
     font-size: 40px;
     font-weight: 700;
@@ -11,20 +11,26 @@
 
   &__container {
     display: flex;
-    margin-top: 24px;
-  }
-
-  &__wrapper {
-    display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    margin-top: 24px;
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
   }
 
   &__box {
-    width: 100px;
+    width: 100%;
     display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 8px 12px;
 
     + .Inventory__box {
-      margin-top: 8px;
     }
   }
 

@@ -18,17 +18,13 @@ const Play = () => {
   const [mapInfo, setMapInfo] = useState({ event: 'rest', id: 0, message: '좋은 아침이다.' });
   const [onBattle, setOnBattle] = useState(false);
 
-  useEffect(() => {
-    console.log(coordinate);
-  }, [coordinate]);
-
   const moveCoordinate = async (nextCoordinate = {}) => {
     try {
-      console.log('123');
       if (!onBattle) {
         const mapInfo = await move(nextCoordinate);
         setCoordinate(nextCoordinate);
         setMapInfo(mapInfo);
+        console.log(mapInfo);
       }
     } catch (err) {
       console.error(err.message);

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { login } from '../../api/auth';
+import { ACCESS_TOKEN } from '../../config';
 
-const SignIn = ({ changeMode }) => {
+const SignIn = ({ changeMode, setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const changeUsername = (value) => {
     setUsername(value);
@@ -22,7 +25,12 @@ const SignIn = ({ changeMode }) => {
 
     try {
       const res = await login(userInfo);
-    } catch (err) {}
+      setIsLoggedIn(true);
+      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+      history.push('/retry');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

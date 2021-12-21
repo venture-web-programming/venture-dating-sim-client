@@ -14,7 +14,7 @@ export const signup = async (userInfo = {}) => {
     const res = await api.post('/signup', userInfo);
     return res.data;
   } catch (err) {
-    throw new Error(err);
+    console.error(err);
   }
 };
 
@@ -23,6 +23,6 @@ export const login = async (userInfo = {}) => {
     const res = await api.post('/login', userInfo);
     return res.data;
   } catch (err) {
-    throw new Error(err);
+    console.error(err);
   }
 };

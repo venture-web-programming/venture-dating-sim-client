@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
-const Auth = () => {
+const Auth = ({ setIsLoggedIn }) => {
   const [isShowTime, setIsShowTime] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
 
@@ -19,7 +19,11 @@ const Auth = () => {
   return (
     <div className='AuthWrapper'>
       <div className={`Auth ${isShowTime ? 'show' : ''}`}>
-        {isSignIn ? <SignIn changeMode={changeMode} /> : <SignUp changeMode={changeMode} />}
+        {isSignIn ? (
+          <SignIn changeMode={changeMode} setIsLoggedIn={setIsLoggedIn} />
+        ) : (
+          <SignUp changeMode={changeMode} setIsLoggedIn={setIsLoggedIn} />
+        )}
       </div>
     </div>
   );
