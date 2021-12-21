@@ -1,9 +1,30 @@
-import api from '.';
+import axios from 'axios';
+import { SERVER_URL } from '../config';
 
 export const getAttackResult = (turn, monsterName) => {
-  return api.get(`/battle/${turn}/${monsterName}`).then((res) => res.data);
+  const cookie = localStorage.getItem('accessToken');
+
+  return axios({
+    method: 'get',
+    baseURL: SERVER_URL,
+    url: `/battle/${turn}/${monsterName}`,
+    headers: {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.data);
 };
 
 export const escape = () => {
-  return api.get('/escape').then((res) => res.data);
+  const cookie = localStorage.getItem('accessToken');
+
+  return axios({
+    method: 'get',
+    baseURL: SERVER_URL,
+    url: `/escape`,
+    headers: {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.data);
 };

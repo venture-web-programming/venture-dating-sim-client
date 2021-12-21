@@ -3,7 +3,7 @@ import * as battleApi from '../../api/battle';
 import * as itemApi from '../../api/item';
 import * as startApi from '../../api/start';
 
-const Script = ({ mapInfo, setOnBattle }) => {
+const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus }) => {
   const [turn, setTurn] = useState(1);
   const [isEnded, setIsEnded] = useState(false);
   const [canEscape, setCanEscape] = useState(false);
@@ -28,6 +28,9 @@ const Script = ({ mapInfo, setOnBattle }) => {
       } else {
         setTurn(turn + 1);
       }
+      setStatus(result.userInfo);
+      setMapInfo({ ...mapInfo, message: result.message });
+
       console.log(result);
     } catch (err) {
       console.error(err);
@@ -45,7 +48,7 @@ const Script = ({ mapInfo, setOnBattle }) => {
 
   const getItem = async () => {
     try {
-      const { itemId } = mapInfo;
+      const { id: itemId } = mapInfo;
       const result = await itemApi.getItem(itemId);
       console.log(result);
     } catch (err) {

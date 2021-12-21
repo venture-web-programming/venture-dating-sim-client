@@ -26,7 +26,8 @@ const SignIn = ({ changeMode, setIsLoggedIn }) => {
     try {
       const res = await login(userInfo);
       setIsLoggedIn(true);
-      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+      localStorage.removeItem('accessToken');
+      localStorage.setItem('accessToken', res.accessToken);
       history.push('/retry');
     } catch (err) {
       console.error(err);

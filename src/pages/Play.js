@@ -11,12 +11,21 @@ import {
 } from '../constants/initial-state';
 import { move } from '../api/move';
 
-const Play = () => {
+const Play = ({ startInfo }) => {
   const [status, setStatus] = useState(INITIAL_STATUS);
   const [coordinate, setCoordinate] = useState(INITIAL_COORDINATE);
   const [inventory, setInventory] = useState(INITIAL_INVENTORY);
   const [mapInfo, setMapInfo] = useState({ event: 'rest', id: 0, message: '좋은 아침이다.' });
   const [onBattle, setOnBattle] = useState(false);
+
+  useEffect(() => {
+    if (startInfo) {
+      const { event, message, userInfo } = startInfo;
+      setStatus(userInfo);
+      setMapInfo({ event, message });
+      setInventory(userInfo.items);
+    }
+  }, []);
 
   const moveCoordinate = async (nextCoordinate = {}) => {
     try {
@@ -38,7 +47,12 @@ const Play = () => {
         <Inventory inventory={inventory} />
       </div>
       <div className='Play__container'>
-        <Script mapInfo={mapInfo} setOnBattle={setOnBattle} />
+        <Script
+          mapInfo={mapInfo}
+          setOnBattle={setOnBattle}
+          setMapInfo={setMapInfo}
+          setStatus={setStatus}
+        />
         <Movement coordinate={coordinate} moveCoordinate={moveCoordinate} />
       </div>
     </div>
