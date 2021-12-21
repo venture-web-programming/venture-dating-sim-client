@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Inventory = () => {
+const Inventory = ({ inventory }) => {
   const renderWrapper = () => {
     return (
       <div className='Inventory__wrapper'>
