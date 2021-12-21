@@ -30,11 +30,14 @@ const SignUp = ({ changeMode, setIsLoggedIn }) => {
     };
 
     try {
-      await signup(userInfo);
-      const res = await login(userInfo);
-      setIsLoggedIn(true);
-      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
-      history.push('/retry');
+      const signupRes = await signup(userInfo);
+      if (!signupRes.error) {
+        const res = await login(userInfo);
+        setIsLoggedIn(true);
+        localStorage.removeItem('accessToken');
+        localStorage.setItem('accessToken', res.accessToken);
+        history.push('/retry');
+      }
     } catch (err) {
       console.error(err);
     }

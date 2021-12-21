@@ -10,6 +10,7 @@ import { checkHasAccessToken } from './utils/checkHelper';
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [startInfo, setStartInfo] = useState(null);
 
   useEffect(() => {
     if (checkHasAccessToken()) {
@@ -33,8 +34,8 @@ const App = () => {
   return (
     <Switch>
       <Route exact path='/' render={() => <Auth setIsLoggedIn={setIsLoggedIn} />}></Route>
-      <Route exact path='/retry' component={Retry}></Route>
-      <Route exact path='/play' component={Play}></Route>
+      <Route exact path='/retry' render={() => <Retry setStartInfo={setStartInfo} />}></Route>
+      <Route exact path='/play' render={() => <Play startInfo={startInfo} />}></Route>
       <Route exact path='/end'></Route>
     </Switch>
   );
