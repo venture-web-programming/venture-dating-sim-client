@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { signup } from '../../api/auth';
+import { login, signup } from '../../api/auth';
+import { useHistory } from 'react-router-dom';
 
 const SignUp = ({ changeMode }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const history = useHistory();
 
   const changeUsername = (value) => {
     setUsername(value);
@@ -28,6 +30,7 @@ const SignUp = ({ changeMode }) => {
 
     try {
       const res = await signup(userInfo);
+      history.push('/play');
     } catch (err) {
       console.error(err);
     }

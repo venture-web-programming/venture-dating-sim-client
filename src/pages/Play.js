@@ -9,21 +9,30 @@ import {
   INITIAL_SCRIPT,
   INITIAL_COORDINATE,
 } from '../constants/initial-state';
+import { move } from '../api/move';
 
 const Play = () => {
   const [status, setStatus] = useState(INITIAL_STATUS);
   const [coordinate, setCoordinate] = useState(INITIAL_COORDINATE);
   const [inventory, setInventory] = useState(INITIAL_INVENTORY);
-  const [script, setScript] = useState(INITIAL_SCRIPT);
+  const [mapInfo, setMapInfo] = useState({ event: 'rest', id: 0, message: '좋은 아침이다.' });
+  const [onBattle, setOnBattle] = useState(false);
 
   useEffect(() => {
     console.log(coordinate);
-    return () => {};
   }, [coordinate]);
 
   const moveCoordinate = async (nextCoordinate = {}) => {
-    // 서버 로직
-    setCoordinate(nextCoordinate);
+    try {
+      console.log('123');
+      if (!onBattle) {
+        const mapInfo = await move(nextCoordinate);
+        setCoordinate(nextCoordinate);
+        setMapInfo(mapInfo);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   return (
@@ -33,7 +42,7 @@ const Play = () => {
         <Inventory inventory={inventory} />
       </div>
       <div className='Play__container'>
-        <Script script={script} />
+        <Script mapInfo={mapInfo} setOnBattle={setOnBattle} />
         <Movement coordinate={coordinate} moveCoordinate={moveCoordinate} />
       </div>
     </div>
