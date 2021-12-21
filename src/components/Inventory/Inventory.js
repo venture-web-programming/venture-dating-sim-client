@@ -1,36 +1,20 @@
 import React from 'react';
 
 const Inventory = ({ inventory }) => {
-  const renderWrapper = () => {
+  const itemList = inventory.map((item) => {
+    const { id: itemId, name: itemName, quantity } = item;
     return (
-      <div className='Inventory__wrapper'>
-        <div className='Inventory__box'>
-          <div className='Inventory__item'>item 1 :</div>
-          <div className='Inventory__value'>0</div>
-        </div>
-        <div className='Inventory__box'>
-          <div className='Inventory__item'>item 2 :</div>
-          <div className='Inventory__value'>0</div>
-        </div>
-        <div className='Inventory__box'>
-          <div className='Inventory__item'>item 3 :</div>
-          <div className='Inventory__value'>0</div>
-        </div>
-        <div className='Inventory__box'>
-          <div className='Inventory__item'>item 4 :</div>
-          <div className='Inventory__value'>0</div>
-        </div>
+      <div key={itemId} className='Inventory__box'>
+        <div className='Inventory__item'>{itemName}</div>
+        <div className='Inventory__value'>{quantity}</div>
       </div>
     );
-  };
+  });
+
   return (
     <div className='Inventory'>
       <h1 className='Inventory__title'>Inventory</h1>
-      <div className='Inventory__container'>
-        {renderWrapper()}
-        {renderWrapper()}
-        {renderWrapper()}
-      </div>
+      <div className='Inventory__container'>{itemList}</div>
     </div>
   );
 };

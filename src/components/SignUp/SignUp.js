@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { login, signup } from '../../api/auth';
 import { useHistory } from 'react-router-dom';
+import { ACCESS_TOKEN } from '../../config';
 
-const SignUp = ({ changeMode }) => {
+const SignUp = ({ changeMode, setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -29,8 +30,11 @@ const SignUp = ({ changeMode }) => {
     };
 
     try {
-      const res = await signup(userInfo);
-      history.push('/play');
+      await signup(userInfo);
+      const res = await login(userInfo);
+      setIsLoggedIn(true);
+      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+      history.push('/retry');
     } catch (err) {
       console.error(err);
     }
