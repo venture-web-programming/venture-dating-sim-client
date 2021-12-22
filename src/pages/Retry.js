@@ -21,7 +21,6 @@ const Retry = ({ setStartInfo }) => {
     try {
       const res = await startApi.retrySetting(trial);
       if (res.error) {
-        console.error(res);
         setMessage(res.error);
       } else {
         setTrial(res.remainTurn);

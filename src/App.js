@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Auth from './pages/Auth';
 import Retry from './pages/Retry';
 import Play from './pages/Play';
+import End from './pages/End';
 
 import './styles/index.scss';
 import { checkHasAccessToken } from './utils/checkHelper';
@@ -33,10 +34,10 @@ const App = () => {
 
   return (
     <Switch>
-      <Route exact path='/' render={() => <Auth setIsLoggedIn={setIsLoggedIn} />}></Route>
-      <Route exact path='/retry' render={() => <Retry setStartInfo={setStartInfo} />}></Route>
-      <Route exact path='/play' render={() => <Play startInfo={startInfo} />}></Route>
-      <Route exact path='/end'></Route>
+      <Route exact path='/' render={() => <Auth setIsLoggedIn={setIsLoggedIn} />} />
+      <Route exact path='/retry' render={() => <Retry setStartInfo={setStartInfo} />} />
+      <Route exact path='/play' render={() => <Play startInfo={startInfo} />} />
+      <Route exact path='/end' component={End} />
     </Switch>
   );
 };

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as battleApi from '../../api/battle';
 import * as itemApi from '../../api/item';
-import * as startApi from '../../api/start';
 
-const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) => {
+const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInventory }) => {
   const [turn, setTurn] = useState(1);
   const [isEnded, setIsEnded] = useState(false);
   const [canEscape, setCanEscape] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     if (mapInfo.event === 'battle') {
@@ -21,13 +23,25 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) =
 
       if (result.isEnded) {
         setIsEnded(true);
-      } else if (result.canEscape) {
+        setTurn(1);
+      }
+
+      if (result.canEscape) {
         setCanEscape(true);
-      } else if (result.isVictory) {
-        setOnBattle(false);
-      } else {
         setTurn(turn + 1);
       }
+
+      if (result.isVictory) {
+        setOnBattle(false);
+        setTurn(1);
+      }
+
+      if (result.isFinished) {
+        setTurn(1);
+        setOnBattle(true); // 이동하지 못하도록
+        setIsFinished(true);
+      }
+
       setStatus(result.userInfo);
       setMapInfo({ ...mapInfo, message: result.message });
 
@@ -40,6 +54,7 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) =
   const escape = async () => {
     try {
       const result = await battleApi.escape();
+      setTurn(1);
       console.log(result);
     } catch (err) {
       console.error(err);
@@ -65,15 +80,6 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) =
     }
   };
 
-  const restartGame = async () => {
-    try {
-      const result = await startApi.restartGame();
-      console.log(result);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const renderItemMapButton = () => {
     return (
       <button className='Script__btn' type='button' onClick={getItem}>
@@ -82,25 +88,42 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) =
     );
   };
 
-  const renderBattleMapButton = () => {
+  const renderAttackAndEscapeButton = () => {
     return (
       <>
-        <button className='Script__btn Script__btn--1' type='button' onClick={attackMonster}>
-          공격하기
-        </button>
-        {canEscape && (
-          <button className='Script__btn Script__btn--2' type='button' onClick={escape}>
-            도망가기
-          </button>
-        )}
+        {renderAttackButton()}
+        {canEscape && renderEscapeButton()}
       </>
     );
   };
 
-  const renderRestartButton = () => {
+  const renderAttackButton = () => {
     return (
-      <button className='Script__btn' type='button' onClick={restartGame}>
-        다시 시작하기
+      <button className='Script__btn Script__btn--1' type='button' onClick={attackMonster}>
+        공격하기
+      </button>
+    );
+  };
+
+  const renderEscapeButton = () => {
+    <button className='Script__btn Script__btn--2' type='button' onClick={escape}>
+      도망가기
+    </button>;
+  };
+
+  const renderBattleButton = () => {
+    if (canEscape) return renderAttackAndEscapeButton();
+    return renderAttackButton();
+  };
+
+  const finishGame = () => {
+    history.push('/end');
+  };
+
+  const renderFinishButton = () => {
+    return (
+      <button className='Script__btn Script__btn--2' type='button' onClick={finishGame}>
+        결혼....
       </button>
     );
   };
@@ -114,11 +137,9 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) =
         <div className='Script__text'>{mapInfo.message}</div>
       </div>
       <div className='Script__btnContainer'>
-        {mapInfo.event === 'battle' && isEnded
-          ? renderRestartButton()
-          : mapInfo.event === 'battle' && !isEnded
-          ? renderBattleMapButton()
-          : mapInfo.event === 'item' && renderItemMapButton()}
+        {mapInfo.event === 'item' && renderItemMapButton()}
+        {onBattle && mapInfo.event === 'battle' && renderBattleButton()}
+        {isFinished && renderFinishButton()}
       </div>
     </div>
   );
