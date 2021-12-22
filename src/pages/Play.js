@@ -52,6 +52,7 @@ const Play = ({ startInfo }) => {
           setOnBattle={setOnBattle}
           setMapInfo={setMapInfo}
           setStatus={setStatus}
+          setInventory={setInventory}
         />
         <Movement coordinate={coordinate} moveCoordinate={moveCoordinate} />
       </div>

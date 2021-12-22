@@ -30,7 +30,7 @@ const Movement = ({ coordinate, moveCoordinate }) => {
           </div>
           <div className='Movement__box Movement__box--2'>
             <div className='Movement__user'>
-              <img className='Movement__img' src='#' />
+              <img className='Movement__img' src='../character.png' />
             </div>
           </div>
           <div className='Movement__box Movement__box--3'>
