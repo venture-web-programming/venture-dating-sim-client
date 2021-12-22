@@ -6,7 +6,7 @@ const Retry = ({ setStartInfo }) => {
   const [trial, setTrial] = useState(1);
   const [ability, setAbility] = useState({
     str: 10,
-    def: 10,
+    def: 5,
   });
   const [message, setMessage] = useState('');
   const history = useHistory();
