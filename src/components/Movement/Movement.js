@@ -29,7 +29,9 @@ const Movement = ({ coordinate, moveCoordinate }) => {
             </button>
           </div>
           <div className='Movement__box Movement__box--2'>
-            <div className='Movement__user'>Image</div>
+            <div className='Movement__user'>
+              <img className='Movement__img' src='../character.png' />
+            </div>
           </div>
           <div className='Movement__box Movement__box--3'>
             <button
