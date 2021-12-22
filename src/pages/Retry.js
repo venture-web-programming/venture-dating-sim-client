@@ -6,7 +6,7 @@ const Retry = ({ setStartInfo }) => {
   const [trial, setTrial] = useState(1);
   const [ability, setAbility] = useState({
     str: 10,
-    def: 5,
+    def: 10,
   });
   const [message, setMessage] = useState('');
   const history = useHistory();
@@ -21,7 +21,6 @@ const Retry = ({ setStartInfo }) => {
     try {
       const res = await startApi.retrySetting(trial);
       if (res.error) {
-        console.error(res);
         setMessage(res.error);
       } else {
         setTrial(res.remainTurn);
