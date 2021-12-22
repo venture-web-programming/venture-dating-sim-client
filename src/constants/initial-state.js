@@ -8,7 +8,7 @@ export const INITIAL_INVENTORY = [];
 export const INITIAL_STATUS = {
   level: 0,
   str: 10,
-  def: 10,
+  def: 5,
   hp: 100,
   exp: 0,
   items: [],
