@@ -3,7 +3,7 @@ import * as battleApi from '../../api/battle';
 import * as itemApi from '../../api/item';
 import * as startApi from '../../api/start';
 
-const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus }) => {
+const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus, setInventory }) => {
   const [turn, setTurn] = useState(1);
   const [isEnded, setIsEnded] = useState(false);
   const [canEscape, setCanEscape] = useState(false);
@@ -50,6 +50,15 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus }) => {
     try {
       const { id: itemId } = mapInfo;
       const result = await itemApi.getItem(itemId);
+      const userInventory = [];
+      result.userInfo.items.forEach((item) => {
+        userInventory.push({ id: item.id, name: item.name, quantity: item.quantity });
+      });
+
+      setInventory(userInventory);
+      setStatus(result.userInfo);
+      setMapInfo(result);
+
       console.log(result);
     } catch (err) {
       console.error(err);
@@ -101,6 +110,7 @@ const Script = ({ mapInfo, setOnBattle, setMapInfo, setStatus }) => {
       <h1 className='Script__title'>Event</h1>
       <div className='Script__desc'>
         <div className='Script__map'>{mapInfo.event}</div>
+        {mapInfo.event === 'item' ? <div>{mapInfo.name}을(를) 발견했다!</div> : <></>}
         <div className='Script__text'>{mapInfo.message}</div>
       </div>
       <div className='Script__btnContainer'>
