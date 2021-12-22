@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { login, signup } from '../../api/auth';
 import { useHistory } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../../config';
 
 const SignUp = ({ changeMode, setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
@@ -55,7 +54,7 @@ const SignUp = ({ changeMode, setIsLoggedIn }) => {
             id='SignUp__input--username'
             className='SignUp__input'
             type='text'
-            placeholder='venture@snu.ac.kr'
+            placeholder='ventureZZang'
             onChange={(e) => changeUsername(e.target.value)}
           />
         </div>
@@ -67,7 +66,7 @@ const SignUp = ({ changeMode, setIsLoggedIn }) => {
             id='SignUp__input--password'
             className='SignUp__input'
             type='password'
-            placeholder='••••••'
+            placeholder='••••••••'
             onChange={(e) => changePassword(e.target.value)}
           />
         </div>
@@ -79,7 +78,7 @@ const SignUp = ({ changeMode, setIsLoggedIn }) => {
             id='SignUp__input--name'
             className='SignUp__input'
             type='name'
-            placeholder='jin'
+            placeholder='JinZZang'
             onChange={(e) => changeName(e.target.value)}
           />
         </div>
