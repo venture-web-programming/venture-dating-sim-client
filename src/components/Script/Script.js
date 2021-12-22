@@ -5,25 +5,27 @@ import * as itemApi from '../../api/item';
 
 const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInventory }) => {
   const [turn, setTurn] = useState(1);
-  const [isEnded, setIsEnded] = useState(false);
   const [canEscape, setCanEscape] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [monsterHp, setMonsterHp] = useState(-1);
+
   const history = useHistory();
 
-  useEffect(() => {
-    if (mapInfo.event === 'battle') {
-      setOnBattle(true);
-    }
-  }, [mapInfo, setOnBattle]);
+  const initialize = () => {
+    setTurn(1);
+    setCanEscape(false);
+    setIsFinished(false);
+    setMonsterHp(-1);
+  };
 
   const attackMonster = async () => {
     try {
       const { id: monsterId } = mapInfo;
-      const result = await battleApi.getAttackResult(turn, monsterId);
+      const result = await battleApi.getAttackResult(turn, monsterId, monsterHp);
+      setMonsterHp(result.monsterHp);
 
       if (result.isEnded) {
-        setIsEnded(true);
-        setTurn(1);
+        initialize();
       }
 
       if (result.canEscape) {
@@ -33,13 +35,14 @@ const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInve
 
       if (result.isVictory) {
         setOnBattle(false);
-        setTurn(1);
+        initialize();
       }
 
       if (result.isFinished) {
         setTurn(1);
         setOnBattle(true); // 이동하지 못하도록
         setIsFinished(true);
+        setMonsterHp(-1);
       }
 
       setStatus(result.userInfo);
@@ -55,6 +58,7 @@ const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInve
     try {
       const result = await battleApi.escape();
       setTurn(1);
+      initialize();
       console.log(result);
     } catch (err) {
       console.error(err);
@@ -127,7 +131,6 @@ const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInve
       </button>
     );
   };
-
   return (
     <div className='Script'>
       <h1 className='Script__title'>Event</h1>
@@ -138,7 +141,7 @@ const Script = ({ mapInfo, onBattle, setOnBattle, setMapInfo, setStatus, setInve
       </div>
       <div className='Script__btnContainer'>
         {mapInfo.event === 'item' && renderItemMapButton()}
-        {onBattle && mapInfo.event === 'battle' && renderBattleButton()}
+        {!isFinished && onBattle && mapInfo.event === 'battle' && renderBattleButton()}
         {isFinished && renderFinishButton()}
       </div>
     </div>

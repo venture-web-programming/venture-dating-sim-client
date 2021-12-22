@@ -24,6 +24,7 @@ const Play = ({ startInfo }) => {
       setStatus(userInfo);
       setMapInfo({ event, message });
       setInventory(userInfo.items);
+    } else {
     }
   }, []);
 
@@ -33,6 +34,10 @@ const Play = ({ startInfo }) => {
         const mapInfo = await move(nextCoordinate);
         setCoordinate(nextCoordinate);
         setMapInfo(mapInfo);
+
+        if (mapInfo.event === 'battle') {
+          setOnBattle(true);
+        }
         console.log(mapInfo);
       }
     } catch (err) {
@@ -49,6 +54,7 @@ const Play = ({ startInfo }) => {
       <div className='Play__container'>
         <Script
           mapInfo={mapInfo}
+          onBattle={onBattle}
           setOnBattle={setOnBattle}
           setMapInfo={setMapInfo}
           setStatus={setStatus}
